@@ -34,7 +34,7 @@ const Home = () => {
         setVisible(true);
         setTimeout(() => {
             setVisible(false);
-        }, 3000);
+        }, 1500);
     }
 
     useEffect(() => {
@@ -73,6 +73,7 @@ const Home = () => {
         <View style={styles.container}>
             <Loading visible={visible}/>
             <FlatList
+                horizontal={true}
                 data={dadosEditora}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.codigoEditora}
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
       padding: 20,
       marginVertical: 8,
       marginHorizontal: 16,
+      height: 90
     },
     title: {
       fontSize: 32,
