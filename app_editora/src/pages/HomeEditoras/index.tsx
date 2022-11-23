@@ -25,7 +25,7 @@ const Item = ({ item, onPress, backgroundColor, textColor }) => (
     </TouchableOpacity>
   );
 
-const Home = ({navigation}) => {
+const HomeEditoras = ({navigation}) => {
 
     const {dadosUsuario} = useContext(DataContext);
     const [dadosEditora, setDadosEditora] = useState<DadosEditoraType[]>([]);
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
     }
   });
 
-export default Home;
+export default HomeEditoras;
