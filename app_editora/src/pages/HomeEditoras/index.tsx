@@ -8,7 +8,8 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  StatusBar
+  StatusBar,
+  Image
 } from 'react-native';
 
 //Importando o contexto de data
@@ -19,7 +20,8 @@ import { NavigationContainer } from '@react-navigation/native';
 
 const Item = ({ item, onPress, backgroundColor, textColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      <Text style={[styles.title, textColor]}>{item.nomeEditora}</Text>
+      {/* <Text style={[styles.title, textColor]}>{item.nomeEditora}</Text> */}
+      <Image style={styles.tinyLogo} source={{uri: item.urlImagem}}/>
     </TouchableOpacity>
   );
 
@@ -83,11 +85,13 @@ const Home = ({navigation}) => {
         <View style={styles.container}>
             <Loading visible={visible}/>
             <FlatList
-                horizontal={true}
+                horizontal={false}
                 data={dadosEditora}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.codigoEditora}
                 extraData={selectedId}
+                numColumns={2}
+                scrollToEnd
             />
         </View>
     );
@@ -97,12 +101,14 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       // marginTop: StatusBar.currentHeight || 0,
-      backgroundColor: '#9c84da'
+      backgroundColor: '#9c84da',
+
+      alignItems: 'center'
+      
     },
     item: {
-      marginHorizontal: 8,
+      marginHorizontal: 25,
       marginTop: 50,
-      padding:10,
       width:120,
       height:120,
       justifyContent:'center',
@@ -110,6 +116,11 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 32,
     },
+    tinyLogo: {
+      width: 120,
+      height: 120,
+      resizeMode: 'stretch'
+    }
   });
 
 export default Home;
