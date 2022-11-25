@@ -58,8 +58,8 @@ const Carrinho = () => {
 
   useFocusEffect(useCallback(() => {
     handleFetchData();
-    carregar();
-  }, []));
+    // carregar();
+  }, [data]));
 
   return (
     <SafeAreaView style={styles.container}>  

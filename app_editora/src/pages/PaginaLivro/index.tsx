@@ -10,7 +10,9 @@ import { DataContext } from '../../context/DataContext';
 import AxiosInstance from '../../api/AxiosInstance';
 import { DadosLivroType } from '../../models/DadosLivrosType';
 import Loading from '../../components/loading';
-import { Card } from 'react-native-paper';
+import { Button, Card } from 'react-native-paper';
+import { incrementLocalData } from '../../services/LocalStorageService';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const PaginaLivro = ({route, navigation}) => {
 
@@ -31,6 +33,16 @@ const PaginaLivro = ({route, navigation}) => {
     }).catch((error) => {
         console.log('Ocorreu um erro ao recuperar dador dos livros: ' + JSON.stringify(error));
     });
+}
+
+const addFavorite = (livro:DadosLivroType) => {
+  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
+  incrementLocalData('favoritos', livro);
+}
+
+const addCart = (livro:DadosLivroType) => {
+  // console.log(`Carrinho: Livro selecionado: ${id}`);
+  incrementLocalData('carrinho', livro);
 }
 
 const [visible, setVisible] = useState(false);
@@ -56,7 +68,8 @@ useEffect(() => {
         <Card.Title title={dadosLivro.nomeLivro} />
         <Card.Cover source={{uri: dadosLivro.urlImagem}} />
         <Card.Actions style={{justifyContent:'center'}}>
-          
+          <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
+          <Button onPress={() => addCart(item)}><Ionicons name='cart' color='#000' size={36} /></Button>
         </Card.Actions>
       </Card>
     </View>

@@ -42,10 +42,10 @@ const CardLivro = ({ item }) => {
 }
 
 
-const Favoritos = () => {
+const Favoritos = (props) => {
 
   const [data, setData] = useState<DadosLivroType[]>([]);
-  
+
   const handleFetchData = async () => {
     const response = await retrieveLocalData('favoritos');
     setData(response ? JSON.parse(response) : []);
@@ -66,8 +66,8 @@ const Favoritos = () => {
 
   useFocusEffect(useCallback(() => {
     handleFetchData();
-    carregar();
-  }, []));
+    // carregar();
+  }, [data]));
 
   const renderItem = ({ item }) => (
     <Item item={item.nomeLivro} />

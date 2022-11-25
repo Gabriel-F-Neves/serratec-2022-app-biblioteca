@@ -18,6 +18,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { DataProvider } from "./context/DataContext";
 
 
+
 const TabBottomNavigation = createBottomTabNavigator();
 const BottomNavigator = () => {
   return(
@@ -45,13 +46,15 @@ const BottomNavigator = () => {
       <TabBottomNavigation.Screen name="FavoritosTabScreen" component={Favoritos} 
         options={{
           title: 'Favoritos',
-          tabBarIcon: () => (<Ionicons name='heart' color='#000' size={24} />)
+          tabBarIcon: () => (<Ionicons name='heart' color='#000' size={24} />),
+          tabBarBadge: 2
         }}
       />
       <TabBottomNavigation.Screen name="CarrinhoTabScreen" component={Carrinho} 
         options={{
           title: 'Carrinho',
-          tabBarIcon: () => (<Ionicons name='cart' color='#000' size={24} />)
+          tabBarIcon: () => (<Ionicons name='cart' color='#000' size={24} />),
+          tabBarBadge: 1
         }}
       />
     </TabBottomNavigation.Navigator>

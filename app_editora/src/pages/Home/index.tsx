@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import Loading from '../../components/loading';
 
 import AxiosInstance from '../../api/AxiosInstance';
 
@@ -58,6 +59,14 @@ const Home = ({navigation}) => {
   const [dadosLivro, setDadosLivro] = useState<DadosLivroType[]>([]);
   const [selectedId, setSelectedId] = useState(null);
   const [selectedLivro, setSelectedLivro] = useState(null);
+  const [visible, setVisible] = useState(false);
+
+  function carregar() {
+      setVisible(true);
+      setTimeout(() => {
+          setVisible(false);
+      }, 2500);
+  }
 
   useEffect(() => {
     const stackNavigator = navigation.getParent();
@@ -66,6 +75,7 @@ const Home = ({navigation}) => {
     }
     getAllEditoras();
     getAllLivros();
+    carregar();
   },[]);
 
   const getAllEditoras = async () => {
@@ -131,6 +141,7 @@ const Home = ({navigation}) => {
 
   return(
     <ScrollView style={styles.container}>
+      <Loading visible={visible}/>
       <FlatList
         data={dadosEditora}
         renderItem={renderItem}

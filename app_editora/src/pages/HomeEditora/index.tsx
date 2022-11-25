@@ -18,15 +18,53 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { DadosEditoraType } from '../../models/DadosEditorasType';
 import { DadosLivroType } from '../../models/DadosLivrosType';
+import { Button, Card } from 'react-native-paper';
+import { incrementLocalData } from '../../services/LocalStorageService';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      <Image style={styles.tinyLogo} source={{uri: item.urlImagem}}/>
-      <Text style={[styles.title, textColor]}>{item.nomeLivro}</Text>
-    </TouchableOpacity>
-  );
+// const Item = ({ item, onPress, backgroundColor, textColor }) => (
+//     <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+//       <Image style={styles.tinyLogo} source={{uri: item.urlImagem}}/>
+//       <Text style={[styles.title, textColor]}>{item.nomeLivro}</Text>
+//     </TouchableOpacity>
+//   );
+
+const Item = ({ item, onPress }) => (
+  <View style={styles.item}>
+    {/* <TouchableOpacity onPress={navigateToEditoraHome(item.codigoLivro)}> */}
+    <Text style={styles.title}>{item}</Text>
+  {/* </TouchableOpacity> */}
+  </View>
+);
+
+
 
 const HomeEditora = ({route, navigation}) => {
+
+  const CardLivro = ({ item }) => {
+    return(
+    <TouchableOpacity onPress={() => navigateToEditoraHome(item.codigoLivro)} >
+    <Card style={styles.cardLivro}>
+      <Card.Title title={item.nomeLivro} />
+      <Card.Cover source={{uri: item.urlImagem}} />
+      <Card.Actions style={{justifyContent:'center'}}>
+        <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
+        <Button onPress={() => addCart(item)}><Ionicons name='cart' color='#000' size={36} /></Button>
+      </Card.Actions>
+    </Card>
+    </TouchableOpacity>
+    );
+  }
+  
+  const addFavorite = (livro:DadosLivroType) => {
+    //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
+    incrementLocalData('favoritos', livro);
+  }
+  
+  const addCart = (livro:DadosLivroType) => {
+    // console.log(`Carrinho: Livro selecionado: ${id}`);
+    incrementLocalData('carrinho', livro);
+  }
 
     const { editoraId } = route.params;
 
@@ -91,7 +129,7 @@ const HomeEditora = ({route, navigation}) => {
             <FlatList
                 horizontal={false}
                 data={dadosEditora}
-                renderItem={renderItem}
+                renderItem={CardLivro}
                 keyExtractor={(item) => item.codigoEditora}
                 extraData={selectedId}
                 numColumns={1}
@@ -101,33 +139,65 @@ const HomeEditora = ({route, navigation}) => {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      // marginTop: StatusBar.currentHeight || 0,
-      backgroundColor: '#9c84da',
+// const styles = StyleSheet.create({
+//     container: {
+//       flex: 1,
+//       // marginTop: StatusBar.currentHeight || 0,
+//       backgroundColor: '#9c84da',
 
-      alignItems: 'center'
+//       alignItems: 'center'
       
-    },
-    item: {
-      marginHorizontal: 25,
-      marginTop: 50,
-      width:300,
-      height:220,
-      justifyContent:'space-evenly',
-      borderRadius: 8,
-      flexDirection: 'row',
-      alignItems: 'center'
-    },
-    title: {
-      fontSize: 32,
-    },
-    tinyLogo: {
-      width: 120,
-      height: 120,
-      resizeMode: 'stretch'
-    }
-  });
+//     },
+//     item: {
+//       marginHorizontal: 25,
+//       marginTop: 50,
+//       width:300,
+//       height:220,
+//       justifyContent:'space-evenly',
+//       borderRadius: 8,
+//       flexDirection: 'row',
+//       alignItems: 'center'
+//     },
+//     title: {
+//       fontSize: 32,
+//     },
+//     tinyLogo: {
+//       width: 120,
+//       height: 120,
+//       resizeMode: 'stretch'
+//     },
+//     cardLivro: {
+//       marginHorizontal: 8,
+//       padding:10,
+//       justifyContent:'center',
+//     }
+//   });
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  title: {
+    fontSize: 32,
+  },
+  cardLivro: {
+    marginHorizontal: 8,
+    padding:10,
+    justifyContent:'center',
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
 
 export default HomeEditora;
