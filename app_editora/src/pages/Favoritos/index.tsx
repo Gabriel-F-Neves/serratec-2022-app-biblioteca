@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,15 @@ import {
   ScrollView,
   SafeAreaView,
   TouchableOpacity,
-  Image
+  Image,
+  RefreshControl
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Card, Button } from 'react-native-paper';
 import { DadosLivroType } from '../../models/DadosLivrosType';
-import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData } from '../../services/LocalStorageService';
+import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData, clearStorage, removeFromFavoritosByKeyAndValue } from '../../services/LocalStorageService';
 
 
 const Item = ({ item }) => (
@@ -20,34 +25,51 @@ const Item = ({ item }) => (
   </View>
 );
 
+
+
+const CardLivro = ({ item }) => {
+  return(
+  <Card style={styles.cardLivro}>
+    <Card.Title title={item.nomeLivro} />
+    <Card.Cover source={{uri: item.urlImagem}} />
+    <Card.Actions style={{justifyContent:'center'}}>
+    <Button color='black' onPress={() => removeFromFavoritosByKeyAndValue('favoritos', item.codigoLivro)}>Remover favorito<MaterialCommunityIcons name='delete-outline' color='#000' size={36} /></Button>
+    {/* <Button type="button" onPress={}" removeLocalData(); location.reload();"> Limpar carrinho </Button> */}
+    </Card.Actions>
+  </Card>
+  );
+}
+
+
 const Favoritos = () => {
-  
+
   const [data, setData] = useState<DadosLivroType[]>([]);
   
   const handleFetchData = async () => {
     const response = await retrieveLocalData('favoritos');
-    const temp = JSON.parse(response);
-    console.log(JSON.stringify(temp));
     setData(response ? JSON.parse(response) : []);
-
   }
   
   useEffect(() => {
     handleFetchData();
   }, []);
 
+  
+
   const renderItem = ({ item }) => (
     <Item item={item.nomeLivro} />
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.codigoLivro}
-      />
-    </SafeAreaView>
+    <SafeAreaView style={styles.container}>     
+        <FlatList
+          data={data}
+          renderItem={CardLivro}
+          keyExtractor={(item, indice) => indice}
+          />
+          <Button color='black' onPress={() => removeLocalData('favoritos')}>Limpar favoritos<MaterialCommunityIcons name='delete-forever-outline' color='#000' size={36} /></Button>          
+      </SafeAreaView>
+    
   );
 }
 
@@ -65,6 +87,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 32,
   },
+  cardLivro: {
+    marginHorizontal: 8,
+    padding:10,
+    justifyContent:'center',
+  },
+  scrollView: {
+    flex: 1,
+    backgroundColor: 'pink',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 export default Favoritos;
