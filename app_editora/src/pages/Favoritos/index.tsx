@@ -12,6 +12,7 @@ import {
   RefreshControl
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import Loading from '../../components/loading';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Card, Button } from 'react-native-paper';
@@ -50,18 +51,31 @@ const Favoritos = () => {
     setData(response ? JSON.parse(response) : []);
   }
   
-  useEffect(() => {
-    handleFetchData();
-  }, []);
+  // useEffect(() => {
+  //   handleFetchData();
+  // }, []);
 
-  
+  const [visible, setVisible] = useState(false);
+
+  function carregar() {
+      setVisible(true);
+      setTimeout(() => {
+          setVisible(false);
+      }, 2500);
+  }
+
+  useFocusEffect(useCallback(() => {
+    handleFetchData();
+    carregar();
+  }, []));
 
   const renderItem = ({ item }) => (
     <Item item={item.nomeLivro} />
   );
 
   return (
-    <SafeAreaView style={styles.container}>     
+    <SafeAreaView style={styles.container}>  
+      <Loading visible={visible}/>   
         <FlatList
           data={data}
           renderItem={CardLivro}

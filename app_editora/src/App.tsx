@@ -7,6 +7,7 @@ import HomeEditoras from "./pages/HomeEditoras";
 import HomeEditora from "./pages/HomeEditora";
 import Favoritos from "./pages/Favoritos";
 import Carrinho from "./pages/Carrinho";
+import PaginaLivro from "./pages/PaginaLivro";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -76,6 +77,14 @@ const App = () => {
           <Stack.Screen 
             name="HomeEditoraScreen" 
             component={HomeEditora}
+            options={{
+              headerStyle: {backgroundColor: '#634193'},
+              headerTitleAlign: 'center'            
+            }}
+          />
+          <Stack.Screen 
+            name="PaginaLivroScreen" 
+            component={PaginaLivro}
             options={{
               headerStyle: {backgroundColor: '#634193'},
               headerTitleAlign: 'center'            

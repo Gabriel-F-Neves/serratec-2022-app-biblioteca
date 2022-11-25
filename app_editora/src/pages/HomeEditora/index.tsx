@@ -65,8 +65,8 @@ const HomeEditora = ({route, navigation}) => {
 
     const navigateToEditoraHome = (id:any) => {
       setSelectedId(id);
-      navigation.navigate('HomeEditoraScreen', {
-        editoraId: id,
+      navigation.navigate('PaginaLivroScreen', {
+        livroId: id,
       });
     }
 
