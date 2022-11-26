@@ -1,15 +1,11 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   View,
   Text,
   FlatList,
   StyleSheet,
   StatusBar,
-  ScrollView,
   SafeAreaView,
-  TouchableOpacity,
-  Image,
-  RefreshControl
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Loading from '../../components/loading';
@@ -17,7 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Card, Button } from 'react-native-paper';
 import { DadosLivroType } from '../../models/DadosLivrosType';
-import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData, clearStorage, removeFromFavoritosByKeyAndValue } from '../../services/LocalStorageService';
+import { retrieveLocalData, removeLocalData, removeFromFavoritosByKeyAndValue } from '../../services/LocalStorageService';
 
 
 const Item = ({ item }) => (
@@ -32,36 +28,22 @@ const CardLivro = ({ item }) => {
   return(
   <Card style={styles.cardLivro}>
     <Card.Title title={item.nomeLivro} />
-    <Card.Cover source={{uri: item.urlImagem}} />
+    <Card.Cover source={{uri: item.urlImagem}} style={styles.imgItem} />
     <Card.Actions style={{justifyContent:'center'}}>
     <Button color='black' onPress={() => removeFromFavoritosByKeyAndValue('favoritos', item.codigoLivro)}>Remover favorito<MaterialCommunityIcons name='delete-outline' color='#000' size={36} /></Button>
-    {/* <Button type="button" onPress={}" removeLocalData(); location.reload();"> Limpar carrinho </Button> */}
     </Card.Actions>
   </Card>
   );
 }
 
 
-const Favoritos = (props) => {
+const Favoritos = () => {
 
   const [data, setData] = useState<DadosLivroType[]>([]);
 
   const handleFetchData = async () => {
     const response = await retrieveLocalData('favoritos');
     setData(response ? JSON.parse(response) : []);
-  }
-  
-  // useEffect(() => {
-  //   handleFetchData();
-  // }, []);
-
-  const [visible, setVisible] = useState(false);
-
-  function carregar() {
-      setVisible(true);
-      setTimeout(() => {
-          setVisible(false);
-      }, 2500);
   }
 
   useFocusEffect(useCallback(() => {
@@ -75,7 +57,6 @@ const Favoritos = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>  
-      <Loading visible={visible}/>   
         <FlatList
           data={data}
           renderItem={CardLivro}
@@ -105,6 +86,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding:10,
     justifyContent:'center',
+    display: 'flex',
+    alignSelf: 'center',
+    width: 350,
+    textAlign: 'justify'
+  },
+  imgItem:{
+    width:340, 
+    height:540,
+    alignItems: 'stretch',
+    alignSelf: 'center'
   },
   scrollView: {
     flex: 1,

@@ -10,7 +10,7 @@ import {
   ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import { Button, Card } from 'react-native-paper';
 import Loading from '../../components/loading';
 
 import AxiosInstance from '../../api/AxiosInstance';
@@ -25,7 +25,7 @@ const Item = ({ item, eventoPressionarBotao }) => (
   <TouchableOpacity onPress={eventoPressionarBotao} 
       style={styles.btnItem}
   >
-    <Image source={{uri: item.urlImagem}} resizeMode='contain' style={styles.imgItem} />    
+    <Image source={{uri: item.urlImagem}}  style={styles.imgEditora} />    
     <Text style={[styles.title]}>{item.nomeEditora}</Text>
   </TouchableOpacity>
 );
@@ -34,7 +34,7 @@ const CardLivro = ({ item }) => {
   return(
   <Card style={styles.cardLivro}>
     <Card.Title title={item.nomeLivro} subtitle={item.editora.nomeEditora} />
-    <Card.Cover source={{uri: item.urlImagem}} />
+    <Card.Cover source={{uri: item.urlImagem}} style={styles.imgItem} />
     <Card.Actions style={{justifyContent:'center'}}>
       <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
       <Button onPress={() => addCart(item)}><Ionicons name='cart' color='#000' size={36} /></Button>
@@ -43,12 +43,10 @@ const CardLivro = ({ item }) => {
   );
 }
 const addFavorite = (livro:DadosLivroType) => {
-  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
 }
 
 const addCart = (livro:DadosLivroType) => {
-  // console.log(`Carrinho: Livro selecionado: ${id}`);
   incrementLocalData('carrinho', livro);
 }
 
@@ -95,8 +93,6 @@ const Home = ({navigation}) => {
       '/livros',
       {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
     ).then( resultado => {
-      //console.log('Dados dos Livros: ' + JSON.stringify(resultado.data));
-
       resultado.data.map((key:any, indice:number) => (
         setDadosLivro(dadosLivro => [...dadosLivro, {
           codigoLivro: key.codigoLivro,
@@ -180,6 +176,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding:10,
     justifyContent:'center',
+    display: 'flex',
+    width: 200,
+    textAlign: 'justify'
   },
   sectionTitle: {
     fontSize: 24,
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   title: {
-    fontSize: 14,
+    fontSize: 18,
     flex:.8
   },
   btnItem:{
@@ -200,9 +199,15 @@ const styles = StyleSheet.create({
     marginBottom: 60
   },
   imgItem:{
-    flex:3, 
-    width:140, 
-    height:140
+    width:180, 
+    height:240,
+    alignItems: 'stretch',
+    alignSelf: 'center'
+  },
+  imgEditora:{
+    flex: 3,
+    width: 180,
+    height: 140
   }
 });
 

@@ -1,26 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import AxiosInstance from '../../api/AxiosInstance';
 import Loading from '../../components/loading';
-// import { styles } from './style';
 import {
   View,
-  Text,
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  StatusBar,
   Image
 } from 'react-native';
 
 //Importando o contexto de data
 import { DataContext } from '../../context/DataContext';
-
 import { DadosEditoraType } from '../../models/DadosEditorasType';
-import { NavigationContainer } from '@react-navigation/native';
 
-const Item = ({ item, onPress, backgroundColor, textColor }) => (
+const Item = ({ item, onPress, backgroundColor }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      {/* <Text style={[styles.title, textColor]}>{item.nomeEditora}</Text> */}
       <Image style={styles.tinyLogo} source={{uri: item.urlImagem}}/>
     </TouchableOpacity>
   );
@@ -46,12 +40,10 @@ const HomeEditoras = ({navigation}) => {
       },[]);
       
       const getAllEditoras = async () => {
-        // setVisible(true)
         AxiosInstance.get(
             '/editoras',
             {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
         ).then( resultado => {
-          // setVisible(false);
             console.log('Dados das editoras: ' + JSON.stringify(resultado.data));
             setDadosEditora(resultado.data);
         }).catch((error) => {
@@ -100,8 +92,7 @@ const HomeEditoras = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      // marginTop: StatusBar.currentHeight || 0,
-      backgroundColor: '#9c84da',
+      backgroundColor: '#efedf4',
 
       alignItems: 'center'
       

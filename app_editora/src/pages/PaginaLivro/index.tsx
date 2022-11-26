@@ -22,12 +22,10 @@ const PaginaLivro = ({route, navigation}) => {
   const {dadosUsuario} = useContext(DataContext);
 
   const getLivro = async () => {
-    // setVisible(true)
     AxiosInstance.get(
           `/livros/${livroId}`,
         {headers: {"Authorization" : `Bearer ${dadosUsuario?.token}`}}
     ).then( resultado => {
-      // setVisible(false);
         console.log('Dados das editoras: ' + JSON.stringify(resultado.data));
         setDadosLivro(resultado.data);
     }).catch((error) => {
@@ -36,12 +34,10 @@ const PaginaLivro = ({route, navigation}) => {
 }
 
 const addFavorite = (livro:DadosLivroType) => {
-  //console.log(`Favoritos: Livro selecionado: ${JSON.stringify(livro)}`);
   incrementLocalData('favoritos', livro);
 }
 
 const addCart = (livro:DadosLivroType) => {
-  // console.log(`Carrinho: Livro selecionado: ${id}`);
   incrementLocalData('carrinho', livro);
 }
 
@@ -62,11 +58,9 @@ useEffect(() => {
   return(
     <View>
       <Loading visible={visible}/>
-      {/* <Text>Pagina Livro, {dadosLivro.nomeLivro}</Text> */}
-
       <Card style={styles.cardLivro}>
         <Card.Title title={dadosLivro.nomeLivro} />
-        <Card.Cover source={{uri: dadosLivro.urlImagem}} />
+        <Card.Cover source={{uri: dadosLivro.urlImagem}} style={styles.imgItem} />
         <Card.Actions style={{justifyContent:'center'}}>
           <Button onPress={() => addFavorite(item)}><Ionicons name='heart-circle' color='#000' size={36} /></Button>
           <Button onPress={() => addCart(item)}><Ionicons name='cart' color='#000' size={36} /></Button>
@@ -95,6 +89,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding:10,
     justifyContent:'center',
+    display: 'flex',
+    alignSelf: 'center',
+    width: 350,
+    textAlign: 'justify'
+  },
+  imgItem:{
+    width:340, 
+    height:540,
+    alignItems: 'stretch',
+    alignSelf: 'center'
   },
   sectionTitle: {
     fontSize: 24,
@@ -113,11 +117,6 @@ const styles = StyleSheet.create({
     width:200, 
     height:200, 
     marginBottom: 60
-  },
-  imgItem:{
-    flex:3, 
-    width:140, 
-    height:140
   }
 });
 

@@ -4,7 +4,7 @@ import { Dimensions, StyleSheet } from 'react-native';
 export const styles =  StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#7054b6'
+      backgroundColor: '#E0e031'
     },
     cabecalho: {
       flex: 1,
@@ -35,7 +35,7 @@ export const styles =  StyleSheet.create({
       alignItems: 'center'
     },
     botao: {
-        backgroundColor: '#190152',
+        backgroundColor: '#1B1309',
         width: Dimensions.get('window').width * 0.9,
         padding: 20,
         borderRadius: 10,

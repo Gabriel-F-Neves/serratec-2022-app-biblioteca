@@ -1,30 +1,22 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, { useState, useCallback} from 'react';
 import {
-  View,
-  Text,
   FlatList,
   StyleSheet,
   StatusBar,
-  ScrollView,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  RefreshControl
+  SafeAreaView
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import Loading from '../../components/loading';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Card, Button } from 'react-native-paper';
 import { DadosLivroType } from '../../models/DadosLivrosType';
-import { storeLocalData, incrementLocalData, retrieveLocalData, removeLocalData, clearStorage, removeFromFavoritosByKeyAndValue } from '../../services/LocalStorageService';
+import { retrieveLocalData, removeLocalData, removeFromFavoritosByKeyAndValue } from '../../services/LocalStorageService';
 
 
 const CardLivro = ({ item }) => {
   return(
   <Card style={styles.cardLivro}>
     <Card.Title title={item.nomeLivro} />
-    <Card.Cover source={{uri: item.urlImagem}} />
+    <Card.Cover source={{uri: item.urlImagem}} style={styles.imgItem} />
     <Card.Actions style={{justifyContent:'center'}}>
       <Button 
         color='black' 
@@ -47,15 +39,6 @@ const Carrinho = () => {
     setData(response ? JSON.parse(response) : []);
   }
 
-  const [visible, setVisible] = useState(false);
-
-  function carregar() {
-      setVisible(true);
-      setTimeout(() => {
-          setVisible(false);
-      }, 2500);
-  }
-
   useFocusEffect(useCallback(() => {
     handleFetchData();
     // carregar();
@@ -63,7 +46,6 @@ const Carrinho = () => {
 
   return (
     <SafeAreaView style={styles.container}>  
-      <Loading visible={visible}/>   
         <FlatList
           data={data}
           renderItem={CardLivro}
@@ -98,6 +80,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     padding:10,
     justifyContent:'center',
+    display: 'flex',
+    alignSelf: 'center',
+    width: 350,
+    textAlign: 'justify'
+  },
+  imgItem:{
+    width:340, 
+    height:540,
+    alignItems: 'stretch',
+    alignSelf: 'center'
   },
   scrollView: {
     flex: 1,

@@ -25,7 +25,7 @@ const BottomNavigator = () => {
     <TabBottomNavigation.Navigator 
       screenOptions={{
         headerShown:false,
-        tabBarStyle:{backgroundColor:'#634193'},
+        tabBarStyle:{backgroundColor:'#b3b327'},
         tabBarLabelStyle:{fontSize: 14},
         tabBarActiveTintColor:'#000',
         tabBarInactiveTintColor:'#000'
@@ -46,15 +46,13 @@ const BottomNavigator = () => {
       <TabBottomNavigation.Screen name="FavoritosTabScreen" component={Favoritos} 
         options={{
           title: 'Favoritos',
-          tabBarIcon: () => (<Ionicons name='heart' color='#000' size={24} />),
-          tabBarBadge: 2
+          tabBarIcon: () => (<Ionicons name='heart' color='#000' size={24} />)
         }}
       />
       <TabBottomNavigation.Screen name="CarrinhoTabScreen" component={Carrinho} 
         options={{
           title: 'Carrinho',
-          tabBarIcon: () => (<Ionicons name='cart' color='#000' size={24} />),
-          tabBarBadge: 1
+          tabBarIcon: () => (<Ionicons name='cart' color='#000' size={24} />)
         }}
       />
     </TabBottomNavigation.Navigator>
@@ -73,7 +71,7 @@ const App = () => {
             name="BottomNavigatorScreen" 
             component={BottomNavigator}
             options={{
-              headerStyle: {backgroundColor: '#634193'},
+              headerStyle: {backgroundColor: '#b3b327'},
               headerTitleAlign: 'center'            
             }}
           />
@@ -81,7 +79,7 @@ const App = () => {
             name="HomeEditoraScreen" 
             component={HomeEditora}
             options={{
-              headerStyle: {backgroundColor: '#634193'},
+              headerStyle: {backgroundColor: '#b3b327'},
               headerTitleAlign: 'center'            
             }}
           />
@@ -89,7 +87,7 @@ const App = () => {
             name="PaginaLivroScreen" 
             component={PaginaLivro}
             options={{
-              headerStyle: {backgroundColor: '#634193'},
+              headerStyle: {backgroundColor: '#b3b327'},
               headerTitleAlign: 'center'            
             }}
           />
